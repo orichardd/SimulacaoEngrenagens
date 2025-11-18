@@ -1,44 +1,32 @@
-public record Engrenagem(
-        int numeroDeDentes,
-        double RPM,
-        double torque,
-        double raio,
-        int posX,
-        int posY,
-        double anguloInicial
-) {
-    @Override
-    public int numeroDeDentes() {
-        return numeroDeDentes;
+// Assuming this is the class referenced in your setEngrenagens method
+public class Engrenagem {
+    public final int dentes;    // Teeth count (N)
+    public final double raio;   // Radius (R)
+    public double rpm;    // Revolutions per minute
+    public final int centerX;   // X position of the center
+    public final int centerY;   // Y position of the center
+
+    // Rotation speed in degrees per frame
+    public double grausPorFrame;
+
+    // Current rotation angle
+    public double angulo;
+
+    // Constructor to initialize properties
+    public Engrenagem(int dentes, double rpm, double torque, double raio, int centerX, int centerY, double angulo) {
+        this.dentes = dentes;
+        this.raio = raio;
+        this.rpm = rpm;
+        this.centerX = centerX;
+        this.centerY = centerY;
+        this.angulo = angulo;
+
+        //conversao de rpm para graus por frame considerando 180 fps
+        this.grausPorFrame = (rpm / 60.0) * (360.0 / 180);
     }
 
-    @Override
-    public double RPM() {
-        return RPM;
-    }
-
-    @Override
-    public double torque() {
-        return torque;
-    }
-
-    @Override
-    public double raio() {
-        return raio;
-    }
-
-    @Override
-    public int posX() {
-        return posX;
-    }
-
-    @Override
-    public int posY() {
-        return posY;
-    }
-
-    @Override
-    public double anguloInicial() {
-        return anguloInicial;
+    public void atualizarVelocidade(double novoRPM) {
+        this.rpm = novoRPM;
+        this.grausPorFrame = (novoRPM / 60.0) * (360.0 / 180);
     }
 }

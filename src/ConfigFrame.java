@@ -16,15 +16,11 @@ public class ConfigFrame extends BaseFrame{
 
         //adicionar o icone
         URL url = getClass().getResource("/icon/gearIcon.png");
-        if (url != null) {
-            // 2. Cria um ImageIcon a partir da URL.
+        if (url == null) {
+            System.err.println("ERRO: Ícone não encontrado no .jar!");
+        } else {
             ImageIcon icon = new ImageIcon(url);
-
-            // 3. Obtém a imagem (java.awt.Image) do ImageIcon.
-            Image imagemIcone = icon.getImage();
-
-            // 4. Define a imagem como o ícone do Frame.
-            this.setIconImage(imagemIcone);
+            setIconImage(icon.getImage());
         }
 
         //adicionar os inputs de configuraçao
@@ -65,8 +61,16 @@ public class ConfigFrame extends BaseFrame{
             verificarValores(numDentes2Field.getText(), Integer.class);
             dentes2 = Integer.parseInt(numDentes2Field.getText());
 
-            if(dentes1 < 5 || dentes2 < 5){
-                JOptionPane.showMessageDialog(this, "O número de dentes de cada engrenagem deve ser no mínimo 5.");
+            if(dentes1 < 8 || dentes2 < 8){
+                JOptionPane.showMessageDialog(this, "O número de dentes de cada engrenagem deve ser no mínimo 8.");
+                // fecha o frame
+                dispose();
+                // abre novamente
+                new ConfigFrame();
+                return;
+            }
+            else if(dentes1 > 60 || dentes2 > 60){
+                JOptionPane.showMessageDialog(this, "O número de dentes de cada engrenagem deve ser no máximo 150.");
                 // fecha o frame
                 dispose();
                 // abre novamente

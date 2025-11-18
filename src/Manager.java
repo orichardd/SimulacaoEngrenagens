@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class Manager {
     int dentes1;
     double rpm1;
@@ -21,8 +23,12 @@ public class Manager {
         this.rpm2 = (dentes1 * rpm1) / dentes2;
         this.torque2 = (dentes1 * torque1) / dentes2;
 
-        engrenagem1 = new Engrenagem(dentes1, rpm1, torque1, calcularRaio(dentes1), 200, 250, 0);
-        engrenagem2 = new Engrenagem(dentes2, rpm2, torque2, calcularRaio(dentes2), 200 + (int)(calcularRaio(dentes1) + calcularRaio(dentes2)), 250, 0);
+        // 2. Inicialização dos objetos (as coordenadas serão ajustadas no MainFrameWithGears)
+        double raio1 = calcularRaio(dentes1);
+        double raio2 = calcularRaio(dentes2);
+
+        engrenagem1 = new Engrenagem(dentes1, rpm1, torque1, raio1, 0, 0, 0);
+        engrenagem2 = new Engrenagem(dentes2, rpm2, torque2, raio2, 0, 0, 0);
     }
 
     public double calcularRaio(int numeroDeDentes){
@@ -32,7 +38,5 @@ public class Manager {
 
     public void criarMainFrame(){
         MainFrame mainFrame = new MainFrame(dentes1, rpm1, torque1, dentes2, rpm2, torque2);
-        System.out.println("Engrenagem 1 - Dentes: " + dentes1 + ", RPM: " + rpm1 + ", Torque: " + torque1);
-        System.out.println("Engrenagem 2 - Dentes: " + dentes2 + ", RPM: " + rpm2 + ", Torque: " + torque2);
     }
 }

@@ -26,8 +26,8 @@ public class BaseFrame extends JFrame {
             JSlider slider = (JSlider) componente;
             slider.setPaintTicks(false);       // nao desenha as marcas
             slider.setPaintLabels(false);      // nao mostra os números
-            slider.setMajorTickSpacing(10);   // marca maior a cada 10
-            slider.setMinorTickSpacing(1);    // marca menor a cada 1
+            slider.setMajorTickSpacing(100);   // marca maior a cada 100
+            slider.setMinorTickSpacing(10);    // marca menor a cada 10
             slider.setOpaque(false);
         }
 
