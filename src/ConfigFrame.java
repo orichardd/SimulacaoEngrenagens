@@ -70,7 +70,7 @@ public class ConfigFrame extends BaseFrame{
                 return;
             }
             else if(dentes1 > 60 || dentes2 > 60){
-                JOptionPane.showMessageDialog(this, "O número de dentes de cada engrenagem deve ser no máximo 150.");
+                JOptionPane.showMessageDialog(this, "O número de dentes de cada engrenagem deve ser no máximo 60.");
                 // fecha o frame
                 dispose();
                 // abre novamente

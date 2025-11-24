@@ -30,6 +30,10 @@ public class BaseFrame extends JFrame {
             slider.setMinorTickSpacing(10);    // marca menor a cada 10
             slider.setOpaque(false);
         }
+        else if(componente instanceof JLabel){
+            Font infoFont = new Font("Arial", Font.BOLD, 14);
+            ((JLabel) componente).setFont(infoFont);
+        }
 
         add(componente);
     }

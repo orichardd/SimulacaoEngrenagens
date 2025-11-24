@@ -31,7 +31,7 @@ public class MainFrame extends BaseFrame {
     int rpmSliderValue = 0;
     int torqueSliderValue = 0;
 
-    JLabel dentes1Label, rpm1Label, torque1Label, dentes2Label, rpm2Label, torque2Label;
+    JLabel engrenagem1Label, dentes1Label, rpm1Label, torque1Label, engrenagem2Label, dentes2Label, rpm2Label, torque2Label;
 
     /** Calcula o raio de passo R = (N * P) / (2 * PI) */
     private double calcularRaio(int numeroDeDentes){
@@ -40,8 +40,13 @@ public class MainFrame extends BaseFrame {
 
     /** Calcula o offset angular necessário para o engrenamento correto (Meio Passo Angular). */
     private double calcularMeshingOffset(int dentes) {
-        // Offset = 360 / (2 * N)
-        return 360.0 / (2.0 * dentes);
+        //calcula o offset, basicamente muda o angulo inicial da segunda engrenagem para garantir o engrenamento correto
+        if(dentes2 % 2 != 0){
+            return 0;
+        }
+        else{
+            return 360.0 / (2.0 * dentes);
+        }
     }
 
     public MainFrame(int dentes1, double rpm1, double torque1, int dentes2, double rpm2, double torque2) {
@@ -128,28 +133,29 @@ public class MainFrame extends BaseFrame {
 
     public void mostrarInformacoes(){
         // Inicializa os labels da classe
+        engrenagem1Label = new JLabel("Engrenagem 1");
+        engrenagem1Label.setFont(new Font("Arial", Font.BOLD, 30));
         dentes1Label = new JLabel("Dentes 1: " + dentes1);
         rpm1Label = new JLabel("RPM 1: " + String.format("%.2f", rpm1));
         torque1Label = new JLabel("Torque 1: " + String.format("%.2f", torque1));
 
+        engrenagem2Label = new JLabel("Engrenagem 2");
+        engrenagem2Label.setFont(new Font("Arial", Font.BOLD, 30));
         dentes2Label = new JLabel("Dentes 2: " + dentes2);
         rpm2Label = new JLabel("RPM 2: " + String.format("%.2f", rpm2));
         torque2Label = new JLabel("Torque 2: " + String.format("%.2f", torque2));
 
-        // Estilizando os labels
-        Font infoFont = new Font("Arial", Font.BOLD, 14);
-
         // Engrenagem 1
-        dentes1Label.setFont(infoFont); rpm1Label.setFont(infoFont); torque1Label.setFont(infoFont);
-        adicionarComponente(dentes1Label, 20, 20, 200, 25);
-        adicionarComponente(rpm1Label, 20, 50, 200, 25);
-        adicionarComponente(torque1Label, 20, 80, 200, 25);
+        adicionarComponente(engrenagem1Label, 20, 20, 200, 25);
+        adicionarComponente(dentes1Label, 20, 50, 200, 25);
+        adicionarComponente(rpm1Label, 20, 70, 200, 25);
+        adicionarComponente(torque1Label, 20, 90, 200, 25);
 
         // Engrenagem 2
-        dentes2Label.setFont(infoFont); rpm2Label.setFont(infoFont); torque2Label.setFont(infoFont);
-        adicionarComponente(dentes2Label, 20, 130, 200, 25);
-        adicionarComponente(rpm2Label, 20, 160, 200, 25);
-        adicionarComponente(torque2Label, 20, 190, 200, 25);
+        adicionarComponente(engrenagem2Label, 20, 160, 200, 25);
+        adicionarComponente(dentes2Label, 20, 190, 200, 25);
+        adicionarComponente(rpm2Label, 20, 210, 200, 25);
+        adicionarComponente(torque2Label, 20, 230, 200, 25);
 
         // descrição sliders
         adicionarComponente(new JLabel("Controle de RPM"), 625, 685, 300, 25);
