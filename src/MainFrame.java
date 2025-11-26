@@ -19,10 +19,13 @@ public class MainFrame extends BaseFrame {
     double rpm1;
     double torque1;
     double velocidadeAngular1;
+    double velocidadeCs1;
+
     int dentes2;
     double rpm2;
     double torque2;
     double velocidadeAngular2;
+    double velocidadeCs2;
 
 
     // Valores base para aplicação do slider (calculados pelo Manager/ConfigFrame)
@@ -38,13 +41,18 @@ public class MainFrame extends BaseFrame {
             dentes1Label,
             rpm1Label,
             torque1Label,
+            velocidades1Label,
             velocidadeAngular1Label,
+            velocidadeCs1Label,
+
             engrenagem2Label,
             engrenagem2RaioLabel,
             dentes2Label,
             rpm2Label,
             torque2Label,
-            velocidadeAngular2Label;
+            velocidades2Label,
+            velocidadeAngular2Label,
+            velocidadeCs2Label;
 
     /** Calcula o raio de passo R = (N * P) / (2 * PI) */
     private double calcularRaio(int numeroDeDentes){
@@ -148,21 +156,25 @@ public class MainFrame extends BaseFrame {
 
     public void mostrarInformacoes(){
         // Calcula velocidades angulares iniciais
-        atualizarVelocidadeAngular();
+        atualizarVelocidades();
         // Inicializa os labels da classe
         engrenagem1Label = new JLabel("Engrenagem 1");
         engrenagem1RaioLabel = new JLabel("Raio: " + String.format("%.2f", engrenagem1.raio) + " cm");
         dentes1Label = new JLabel("Dentes: " + dentes1);
         rpm1Label = new JLabel("RPM: " + String.format("%.2f", rpm1));
         torque1Label = new JLabel("Torque: " + String.format("%.2f", torque1) + " N•m");
-        velocidadeAngular1Label = new JLabel("Velocidade Angular: " + String.format("%.2f", velocidadeAngular1) + " rad/s");
+        velocidades1Label = new JLabel("Velocidades: ");
+        velocidadeAngular1Label = new JLabel("Angular: " + String.format("%.2f", velocidadeAngular1) + " rad/s");
+        velocidadeCs1Label = new JLabel("C/s: " + String.format("%.2f", (velocidadeAngular1 * engrenagem1.raio)) + " C/s");
 
         engrenagem2Label = new JLabel("Engrenagem 2");
         engrenagem2RaioLabel = new JLabel("Raio: " + String.format("%.2f", engrenagem2.raio) + " cm");
         dentes2Label = new JLabel("Dentes: " + dentes2);
         rpm2Label = new JLabel("RPM: " + String.format("%.2f", rpm2));
         torque2Label = new JLabel("Torque: " + String.format("%.2f", torque2) + " N•m");
-        velocidadeAngular2Label = new JLabel("Velocidade Angular: " + String.format("%.2f", velocidadeAngular2) + " rad/s");
+        velocidades2Label = new JLabel("Velocidades: ");
+        velocidadeAngular2Label = new JLabel("Angular: " + String.format("%.2f", velocidadeAngular2) + " rad/s");
+        velocidadeCs2Label = new JLabel("C/s: " + String.format("%.2f", (velocidadeAngular2 * engrenagem2.raio)) + " C/s");
 
         // Engrenagem 1
         int yAtual = 20;
@@ -172,7 +184,9 @@ public class MainFrame extends BaseFrame {
         adicionarComponente(dentes1Label, 20, yAtual, 200, 25); yAtual += pulo;
         adicionarComponente(rpm1Label, 20, yAtual, 400, 25); yAtual += pulo;
         adicionarComponente(torque1Label, 20, yAtual, 400, 25); yAtual += pulo;
+        adicionarComponente(velocidades1Label, 20, yAtual, 400, 25); yAtual += pulo;
         adicionarComponente(velocidadeAngular1Label, 20, yAtual, 400, 25); yAtual += pulo;
+        adicionarComponente(velocidadeCs1Label, 20, yAtual, 400, 25); yAtual += pulo;
 
         // Engrenagem 2
         yAtual += 50;
@@ -181,7 +195,9 @@ public class MainFrame extends BaseFrame {
         adicionarComponente(dentes2Label, 20, yAtual, 200, 25); yAtual += pulo;
         adicionarComponente(rpm2Label, 20, yAtual, 400, 25); yAtual += pulo;
         adicionarComponente(torque2Label, 20, yAtual, 400, 25); yAtual += pulo;
+        adicionarComponente(velocidades2Label, 20, yAtual, 400, 25); yAtual += pulo;
         adicionarComponente(velocidadeAngular2Label, 20, yAtual, 400, 25); yAtual += pulo;
+        adicionarComponente(velocidadeCs2Label, 20, yAtual, 400, 25); yAtual += pulo;
 
         //outras informaçoes
         yAtual += 50;
@@ -216,28 +232,30 @@ public class MainFrame extends BaseFrame {
         adicionarComponente(torqueSlider, 20, 700, 220, 50);
     }
 
-    public void atualizarVelocidadeAngular(){
+    public void atualizarVelocidades(){
         velocidadeAngular1 = (rpm1 * (2.0 * Math.PI)) / 60; // rad/s
         velocidadeAngular2 = -((rpm2 * (2.0 * Math.PI)) / 60); // rad/s
+        velocidadeCs1 = velocidadeAngular1 * engrenagem1.raio; // cm/s
+        velocidadeCs2 = velocidadeAngular2 * engrenagem2.raio; // cm/s
+
+
+
     }
 
     public void atualizarInformacoes(){
-        // --- 1. Update RPM ---
         // Novo RPM 1 baseado no slider (controle percentual)
         rpm1 = rpmOriginal1 * (1.0 + (rpmSliderValue / 100.0));
 
         // RPM 2 recalculado usando a razão de transmissão (N1/N2)
         rpm2 = (dentes1 * rpm1) / dentes2;
 
-        // --- 2. Update Torque ---
         // Novo Torque 1 baseado no slider
         torque1 = torqueOriginal1 * (1.0 + (torqueSliderValue / 100.0));
 
         // Torque 2 recalculado
         torque2 = (dentes1 * torque1) / dentes2;
 
-        // --- 3. Update Engrenagem Speeds ---
-        // Atualiza a velocidade na instância da Engrenagem, que recalcula degPerFrame
+        // Atualiza a velocidade na instância da Engrenagem, que recalcula graus por frame
         engrenagem1.atualizarVelocidade(rpm1);
         engrenagem2.atualizarVelocidade(rpm2);
 
@@ -250,10 +268,12 @@ public class MainFrame extends BaseFrame {
         torque2Label.setText("Torque: " + String.format("%.2f", torque2) + " N•m");
 
         // atualizar velocidades angulares
-        atualizarVelocidadeAngular();
-        velocidadeAngular1Label.setText("Velocidade Angular: " + String.format("%.2f", velocidadeAngular1) + " rad/s");
-        velocidadeAngular2Label.setText("Velocidade Angular: " + String.format("%.2f", velocidadeAngular2) + " rad/s");
+        atualizarVelocidades();
 
+        velocidadeAngular1Label.setText("Angular: " + String.format("%.2f", velocidadeAngular1) + " rad/s");
+        velocidadeAngular2Label.setText("Angular: " + String.format("%.2f", velocidadeAngular2) + " rad/s");
+        velocidadeCs1Label.setText("C/s: " + String.format("%.2f", (velocidadeAngular1 * engrenagem1.raio)) + " C/s");
+        velocidadeCs2Label.setText("C/s: " + String.format("%.2f", (velocidadeAngular2 * engrenagem2.raio)) + " C/s");
     }
 
     /** FIX CRUCIAL: Para o timer de animação e fecha a janela. */
@@ -280,7 +300,8 @@ public class MainFrame extends BaseFrame {
 
 
         public GearPanel() {
-            // Timer para animar (25ms = 40 FPS)
+            // Timer para animar (16ms = 60 FPS, 5m = 180 FPS)
+            // para mudar a frequencia de atualização, altere tambem o valor de FPS na classe Engrenagem para ser equivalente
             this.animationTimer = new Timer(16, e -> {
                 updateGearAngles();
                 repaint();

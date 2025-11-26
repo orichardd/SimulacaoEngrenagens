@@ -12,6 +12,8 @@ public class Engrenagem {
     // Current rotation angle
     public double angulo;
 
+    int FPS = 60;
+
     // Constructor to initialize properties
     public Engrenagem(int dentes, double rpm, double torque, double raio, int centerX, int centerY, double angulo) {
         this.dentes = dentes;
@@ -22,12 +24,11 @@ public class Engrenagem {
         this.angulo = angulo;
 
         //conversao de rpm para graus por frame considerando 60 fps
-        double FPS = 60;
         this.grausPorFrame = (rpm * 360.0) / 60.0 / FPS;
     }
 
     public void atualizarVelocidade(double novoRPM) {
         this.rpm = novoRPM;
-        this.grausPorFrame = (novoRPM / 60.0) * (360.0 / 180);
+        this.grausPorFrame = (novoRPM * 360.0) / 60.0 / FPS; //a cada atualização da animação calcula os graus por frame
     }
 }
