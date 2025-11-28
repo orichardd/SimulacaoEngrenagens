@@ -245,7 +245,7 @@ public class MainFrame extends BaseFrame {
         torque1 = torqueOriginal1 * (1.0 + (torqueSliderValue / 100.0));
 
         // Torque 2 recalculado
-        torque2 = (dentes1 * torque1) / dentes2;
+        this.torque2 = (dentes2 * torque1) / dentes1;
 
         // Atualiza a velocidade na instância da Engrenagem, que recalcula graus por frame
         engrenagem1.atualizarVelocidade(rpm1);

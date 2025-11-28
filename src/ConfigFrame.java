@@ -80,6 +80,7 @@ public class ConfigFrame extends BaseFrame{
 
         //botao para mostrar os créditos
         JButton creditosButton = new JButton("...");
+        creditosButton.setVisible(false);
         adicionarComponente(creditosButton, 300, 400, 30, 30);
         creditosButton.addActionListener(ev -> abrirCreditosFrame());
 

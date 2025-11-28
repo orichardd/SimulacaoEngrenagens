@@ -21,7 +21,7 @@ public class Manager {
 
         // Calcular RPM e torque da segunda engrenagem
         this.rpm2 = (dentes1 * rpm1) / dentes2;
-        this.torque2 = (dentes1 * torque1) / dentes2;
+        this.torque2 = (dentes2 * torque1) / dentes1;
 
         // 2. Inicialização dos objetos (as coordenadas serão ajustadas no MainFrameWithGears)
         double raio1 = calcularRaio(dentes1);
